@@ -5,43 +5,43 @@ public class Node {
     private Object element;
     private Node left;
     private Node right;
-    public Node(long id, Object elemento, Node left, Node right)
-    {
+
+    public Node(long id, Object element, Node left, Node right) {
         this.id = id;
-        this.elemento = elemento;
-        this.esq = esq;
-        this.dir = dir;
+        this.element = element;
+        this.left = left;
+        this.right = right;
     }
-    public void setId(long id) // método para alterar o identificador do nó
-    {
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
         this.id = id;
     }
-    public long getId() // método para receber o identificador do nó
-    {
-        return this.id;
+
+    public Object getElement() {
+        return element;
     }
-    public void setElemento(Object elemento) // método para alterar o elemento
-    {
-        this.elemento = elemento;
+
+    public void setElement(Object element) {
+        this.element = element;
     }
-    public Object getElemento() // método para receber o objeto contido no No
-    {
-        return elemento;
+
+    public Node getLeft() {
+        return left;
     }
-    public void setEsq(No esq) // método que altera o filho esquerdo
-    {
-        this.esq = esq;
+
+    public void setLeft(Node left) {
+        this.left = left;
     }
-    public No getEsq() // método que recebe o filho esquerdo do nó
-    {
-        return esq;
+
+    public Node getRight() {
+        return right;
     }
-    public void setDir(No dir) // método que altera o filho direito
-    {
-        this.dir = dir;
-    }
-    public No getDir() // método que recebe o filho direito do nó
-    {
-        return dir;
+
+    public void setRight(Node right) {
+        this.right = right;
     }
 }
