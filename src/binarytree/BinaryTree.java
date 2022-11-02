@@ -76,8 +76,8 @@ public class BinaryTree {
     private long heightCalculate(Node current, long height) {
         if (current != null) {
             long l,r;
-            l = heightCalculate(current.getLeft(),height)+1;
-            r = heightCalculate(current.getRight(),height)+1;
+            l = heightCalculate(current.getLeft(),height) + 1;
+            r = heightCalculate(current.getRight(),height) + 1;
             if (l > r) {
                 return height + l;
             } else {
