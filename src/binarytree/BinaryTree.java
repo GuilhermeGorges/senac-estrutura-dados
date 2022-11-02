@@ -35,4 +35,62 @@ public class BinaryTree {
             }
         }
     }
+
+    private void preFixed(Node current) {
+        if (current != null) {
+            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
+            preFixed(current.getLeft());
+            preFixed(current.getRight());
+        }
+    }
+
+
+    private void postFixed(Node current) {
+        if (current != null) {
+            postFixed(current.getLeft());
+            postFixed(current.getRight());
+            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
+        }
+    }
+
+    private void symFixed(Node current) {
+        if (current != null) {
+            symFixed(current.getLeft());
+            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
+            symFixed(current.getRight());
+        }
+    }
+
+    public void printThreeElementsByPreFixed() {
+        preFixed(this.root);
+    }
+
+    public void printThreeElementsByPostFixed() {
+        postFixed(this.root);
+    }
+
+    public void printThreeElementsSymFixed() {
+        symFixed(this.root);
+    }
+
+    private long heightCalculate(Node current, long height) {
+        if (current != null) {
+            long l,r;
+            l = heightCalculate(current.getLeft(),height)+1;
+            r = heightCalculate(current.getRight(),height)+1;
+            if (l > r) {
+                return height + l;
+            } else {
+                return height + r;
+            }
+        }
+        return height;
+    }
+
+    public long treeHeight() {
+        long height = 0;
+        return heightCalculate(this.root, height);
+    }
 }
+
+
