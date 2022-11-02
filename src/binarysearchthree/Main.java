@@ -30,5 +30,13 @@ public class Main {
 
         System.out.println("\nPrint Three Elements Symmetric Fixed");
         bst.printThreeElementsBySymFixed();
+
+        bst.bstRemove(110);
+        bst.bstRemove(119);
+        bst.bstRemove(80);
+        bst.bstRemove(110);
+
+        System.out.println("\nPrint Three Elements Symmetric Fixed After remove 110, 119, 80, 110");
+        bst.printThreeElementsBySymFixed();
     }
 }

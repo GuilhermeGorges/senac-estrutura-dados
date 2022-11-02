@@ -35,6 +35,91 @@ public class BinarySearchThree {
         symFixed(this.root);
     }
 
+    public boolean bstRemove(long id) {
+        Node current = this.root;
+        Node parent = this.root;
+        boolean leftSon = true;
+
+        while (current.getId() != id) {
+            parent = current;
+
+            if (id < current.getId()) {
+                leftSon = true;
+                current = current.getLeft();
+            } else {
+                leftSon = false;
+                current = current.getRight();
+            }
+
+            if (current == null) {
+                return false;
+            }
+        }
+
+        if (current.getLeft() == null && current.getRight() == null) {
+            if (current == this.root) {
+                this.root = null;
+            } else {
+                if (leftSon) {
+                    parent.setLeft(null);
+                } else {
+                    parent.setRight(null);
+                }
+            }
+        } else {
+            if (current.getRight() == null) {
+                if (current == this.root) {
+                    this.root = current.getLeft();
+                } else {
+                    if (leftSon) {
+                        parent.setLeft(current.getLeft());
+                    } else {
+                        parent.setRight(current.getLeft());
+                    }
+                }
+            } else {
+                if (current.getLeft() == null) {
+                    if (current == this.root) {
+                        this.root = current.getRight();
+                    } else {
+                        if (leftSon) {
+                            parent.setLeft(current.getRight());
+                        } else {
+                            parent.setRight(current.getRight());
+                        }
+                    }
+                } else {
+                    Node successor = getSucessor(current);
+                    if (current == this.root) {
+                        this.root = successor;
+                    } else {
+                        if (leftSon) {
+                            parent.setLeft(successor);
+                        } else {
+                            parent.setRight(successor);
+                        }
+                    }
+                    successor.setLeft(current.getLeft());
+                }
+            }
+        }
+        return true;
+    }
+
+    private Node getSucessor(Node eliminate) {
+        Node successorParent = eliminate;
+        Node successor = eliminate;
+        Node current = eliminate.getRight();
+        while (current != null) {
+            successorParent = successor;
+            successor = current;
+            current = current.getLeft();
+        }
+        if (successor != eliminate.getRight()) {
+        }
+        return successor;
+    }
+
     private void insert(Node current, Node newNode) {
         if (current.getId() == newNode.getId()) {
         }
@@ -79,7 +164,6 @@ public class BinarySearchThree {
             preFixed(current.getRight());
         }
     }
-
 
     private void postFixed(Node current) {
         if (current != null) {
