@@ -1,22 +1,10 @@
 package pti;
 
-import binarytree.Node;
-
 public class BinaryTree {
 
     private Node root;
-    private long leftSideInsertCount = 0;
-    private long rightSideInsertCount = 0;
-    private long leftSide = 0;
-    private long rightSide = 0;
-
-    public long getLeftSide() {
-        return leftSideInsertCount;
-    }
-
-    public long getRightSide() {
-        return rightSideInsertCount;
-    }
+    private long leftSideCounter = 0;
+    private long rightSideCounter = 0;
 
     public BinaryTree() {
         this.root = null;
@@ -35,14 +23,12 @@ public class BinaryTree {
                 if (id < currentNode.getId()) {
                     currentNode = currentNode.getLeft();
                     if (currentNode == null) {
-                        this.leftSideInsertCount = leftSideInsertCount + 1;
                         parentNode.setLeft(newNode);
                         return;
                     }
                 } else {
                     currentNode = currentNode.getRight();
                     if(currentNode == null) {
-                        this.rightSideInsertCount = rightSideInsertCount + 1;
                         parentNode.setRight(newNode);
                         return;
                     }
@@ -53,38 +39,34 @@ public class BinaryTree {
     }
 
     private void sidesCounter(Node current, String side) {
-
         if ("I".equals(side)) {
-            this.leftSide = 0;
-            this.rightSide = 0;
+            this.leftSideCounter = 0;
+            this.rightSideCounter = 0;
         }
-
         if (current != null) {
             if ("L".equals(side)) {
-                this.leftSide = this.leftSide + 1;
+                this.leftSideCounter = this.leftSideCounter + 1;
             } else if ("R".equals(side)) {
-                this.rightSide = this.rightSide + 1;
+                this.rightSideCounter = this.rightSideCounter + 1;
             }
             sidesCounter(current.getLeft(), "L");
             sidesCounter(current.getRight(), "R");
         }
-
     }
 
     public long getLeftCount() {
         sidesCounter(this.root, "I");
-        return this.leftSide;
+        return this.leftSideCounter;
     }
+
     public long getRightCount() {
         sidesCounter(this.root, "I");
-        return this.rightSide;
+        return this.rightSideCounter;
     }
 
     private void preFixedIndentingByDepth(Node current, String spaces) {
-
         if (current != null) {
             System.out.println(spaces + current.getId());
-
             preFixedIndentingByDepth(current.getLeft(), spaces.concat("   "));
             preFixedIndentingByDepth(current.getRight(), spaces.concat("   "));
             spaces.replace("   ", "");
