@@ -17,5 +17,6 @@ public class Main {
         System.out.println("\nPrint Three Elements By Depth");
         binaryTree.printThreeElementsByIndentingByDepth();
 
+        binaryTree.printTree();
     }
 }

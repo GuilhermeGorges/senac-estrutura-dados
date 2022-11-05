@@ -1,5 +1,8 @@
 package pti;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinaryTree {
 
     private Node root;
@@ -77,6 +80,44 @@ public class BinaryTree {
 
     public void printThreeElementsByIndentingByDepth() {
         preFixedIndentingByDepth(this.root, "");
+    }
+
+    // Testando implementação para impressão da árvore com as arestas.
+
+    List<String> spaces = new ArrayList<>();
+    private void pintTree(Node current, String side) {
+        if ("I".equals(side)) {
+            for (int i = 0; i < 10; i++) {
+                spaces.add("  ");
+            }
+            printSpaces(spaces);
+            System.out.println(current.getId());
+        }
+        if (current != null) {
+            if ("L".equals(side)) {
+                printSpaces(spaces);
+                System.out.println("/");
+                spaces.remove(0);
+                printSpaces(spaces);
+                System.out.println(current.getId());
+            } else if ("R".equals(side)) {
+                printSpaces(spaces);
+                System.out.println("\\");
+                spaces.add("  ");
+                printSpaces(spaces);
+                System.out.println(current.getId());
+            }
+            pintTree(current.getLeft(), "L");
+            pintTree(current.getRight(), "R");
+        }
+    }
+
+    private void printSpaces(List<String> spaces) {
+        spaces.forEach(System.out::print);
+    }
+
+    public void printTree() {
+        pintTree(this.root, "I");
     }
 
 }
