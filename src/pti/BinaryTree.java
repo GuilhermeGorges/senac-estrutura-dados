@@ -83,7 +83,7 @@ public class BinaryTree {
     }
 
     // Impressão da árvore com as arestas.
-    // Surgimento de anomalias na impressão com árvores com mais de 6 nós
+    // Surgimento de anomalias na impressão com árvores com mais de 7 nós
     String[][] matrix;
     int x, y;
     int yAdjusted;
