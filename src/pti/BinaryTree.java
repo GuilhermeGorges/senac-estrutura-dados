@@ -83,12 +83,14 @@ public class BinaryTree {
     }
 
     // Impressão da árvore com as arestas.
+    // Surgimento de anomalias na impressão com árvores com mais de 6 nós
     String[][] matrix;
     int x, y;
+    int yAdjusted;
     private void populateMatrixByTree(Node current, String side) {
         if ("I".equals(side)) {
             int threeHeight = heightCalculate(this.root, 0);
-            matrix = new String[(threeHeight * 2)][(threeHeight * 13)];
+            matrix = new String[(threeHeight * 2)][(threeHeight * 14)];
             int matrixLengthY = matrix[0].length;
 
             matrix[0][Math.round(matrixLengthY / 2)] = current.getElement().toString();
@@ -98,12 +100,20 @@ public class BinaryTree {
         if (current != null) {
             if ("L".equals(side)) {
                 y-=3;
-                matrix[x-1][y+1] = "  /  ";
-                matrix[x][y] = current.getElement().toString();
+                yAdjusted =  y + adjustDistortion(x, y);
+                System.out.println("L");
+                System.out.println(y);
+                System.out.println(yAdjusted);
+                matrix[x-1][yAdjusted+1] = "  /  ";
+                matrix[x][yAdjusted] = current.getElement().toString();
             } else if ("R".equals(side)) {
                 y+=3;
-                matrix[x-1][y-1] = "  \\  ";
-                matrix[x][y] = current.getElement().toString();
+                yAdjusted =  y - adjustDistortion(x, y);
+                System.out.println("R");
+                System.out.println(y);
+                System.out.println(yAdjusted);
+                matrix[x-1][yAdjusted-1] = "  \\  ";
+                matrix[x][yAdjusted] = current.getElement().toString();
             }
             x+=2;
             populateMatrixByTree(current.getLeft(), "L");
@@ -114,15 +124,25 @@ public class BinaryTree {
         }
     }
 
+    //Tentativa de ajuste da distorção sem sucesso
+    private int adjustDistortion (int x, int y) {
+//        if (y<25) {
+//            x = (int) (x / 3);
+//        } else if (y <= 35 && x <= 6) {
+//            x = (int) (x / 2);
+//        }
+        return x = (int) (x / 3);
+    }
+
     public void printTreeByMatrix() {
         populateMatrixByTree(this.root, "I");
         for (int x = 0; x < matrix.length; x++) {
             System.out.print(x+" ");
             for (int y = 0; y < matrix[x].length; y++) {
                 if (matrix[x][y] != null) {
-                    System.out.print(" - " + matrix[x][y]);
+                    System.out.print( matrix[x][y]);
                 } else {
-                    System.out.print(y + " - ");
+                    System.out.print(" --- ");
                 }
             }
             System.out.println();

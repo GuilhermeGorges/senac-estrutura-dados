@@ -11,6 +11,8 @@ public class Main {
         binaryTree.insert(444, "[444]");
         binaryTree.insert(888, "[888]");
         binaryTree.insert(999, "[999]");
+        binaryTree.insert(777, "[777]");
+
 
         System.out.println("Left size: " + binaryTree.getLeftCount());
         System.out.println("Right size: " + binaryTree.getRightCount());
