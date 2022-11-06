@@ -82,44 +82,67 @@ public class BinaryTree {
         preFixedIndentingByDepth(this.root, "");
     }
 
-    // Testando implementação para impressão da árvore com as arestas.
-
-    List<String> spaces = new ArrayList<>();
-    private void pintTree(Node current, String side) {
+    // Impressão da árvore com as arestas.
+    String[][] matrix;
+    int x, y;
+    private void populateMatrixByTree(Node current, String side) {
         if ("I".equals(side)) {
-            for (int i = 0; i < 10; i++) {
-                spaces.add("  ");
-            }
-            printSpaces(spaces);
-            System.out.println(current.getId());
+            int threeHeight = heightCalculate(this.root, 0);
+            matrix = new String[(threeHeight * 2)][(threeHeight * 13)];
+            int matrixLengthY = matrix[0].length;
+
+            matrix[0][Math.round(matrixLengthY / 2)] = current.getElement().toString();
+            y = Math.round(matrixLengthY / 2);
+            x = 0;
         }
         if (current != null) {
             if ("L".equals(side)) {
-                printSpaces(spaces);
-                System.out.println("/");
-                spaces.remove(0);
-                printSpaces(spaces);
-                System.out.println(current.getId());
+                y-=3;
+                matrix[x-1][y+1] = "  /  ";
+                matrix[x][y] = current.getElement().toString();
             } else if ("R".equals(side)) {
-                printSpaces(spaces);
-                System.out.println("\\");
-                spaces.add("  ");
-                printSpaces(spaces);
-                System.out.println(current.getId());
+                y+=3;
+                matrix[x-1][y-1] = "  \\  ";
+                matrix[x][y] = current.getElement().toString();
             }
-            pintTree(current.getLeft(), "L");
-            pintTree(current.getRight(), "R");
+            x+=2;
+            populateMatrixByTree(current.getLeft(), "L");
+            y+=3;
+            populateMatrixByTree(current.getRight(), "R");
+            y-=3;
+            x-=2;
         }
     }
 
-    private void printSpaces(List<String> spaces) {
-        spaces.forEach(System.out::print);
+    public void printTreeByMatrix() {
+        populateMatrixByTree(this.root, "I");
+        for (int x = 0; x < matrix.length; x++) {
+            System.out.print(x+" ");
+            for (int y = 0; y < matrix[x].length; y++) {
+                if (matrix[x][y] != null) {
+                    System.out.print(" - " + matrix[x][y]);
+                } else {
+                    System.out.print(y + " - ");
+                }
+            }
+            System.out.println();
+        }
+
     }
 
-    public void printTree() {
-        pintTree(this.root, "I");
+    private int heightCalculate(Node current, int height) {
+        if (current != null) {
+            int l,r;
+            l = heightCalculate(current.getLeft(),height) + 1;
+            r = heightCalculate(current.getRight(),height) + 1;
+            if (l > r) {
+                return height + l;
+            } else {
+                return height + r;
+            }
+        }
+        return height;
     }
-
 }
 
 
