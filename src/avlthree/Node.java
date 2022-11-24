@@ -8,13 +8,13 @@ public class Node {
     private Node parent;
     private long b;
 
-    public Node(long id, Object element, Node left, Node right, Node parent, long b) {
+    public Node(long id, Object element, Node left, Node right) {
         this.id = id;
         this.element = element;
         this.left = left;
         this.right = right;
-        this.parent = parent;
-        this.b = b;
+        this.b = 0;
+        this.parent = null;
     }
 
     public long getId() {

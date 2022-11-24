@@ -1,183 +1,141 @@
 package avlthree;
 
-import binarytree.Node;
-
 public class AVLThree {
 
     private Node root;
 
-    public AVLThree() {
-        this.root = null;
-    }
-
-    public void insertBST(long id, Object element) {
-        if (this.root == null) {
-            this.root = new Node(id, element,null,null);
-        } else {
-            Node newNode = new Node(id, element, null,null);
-            insert(this.root, newNode);
-        }
-    }
-
-    public Node bstSearch(long id) {
-        return search(this.root, id);
-    }
-
-    public void printThreeElementsByPreFixed() {
-        preFixed(this.root);
-    }
-
-    public void printThreeElementsByPostFixed() {
-        postFixed(this.root);
-    }
-
-    public void printThreeElementsBySymFixed() {
-        symFixed(this.root);
-    }
-
-    public boolean bstRemove(long id) {
-        Node current = this.root;
-        Node parent = this.root;
-        boolean leftSon = true;
-
-        while (current.getId() != id) {
-            parent = current;
-
-            if (id < current.getId()) {
-                leftSon = true;
-                current = current.getLeft();
-            } else {
-                leftSon = false;
-                current = current.getRight();
-            }
-
-            if (current == null) {
-                return false;
-            }
-        }
-
-        if (current.getLeft() == null && current.getRight() == null) {
-            if (current == this.root) {
-                this.root = null;
-            } else {
-                if (leftSon) {
-                    parent.setLeft(null);
-                } else {
-                    parent.setRight(null);
-                }
-            }
-        } else {
-            if (current.getRight() == null) {
-                if (current == this.root) {
-                    this.root = current.getLeft();
-                } else {
-                    if (leftSon) {
-                        parent.setLeft(current.getLeft());
-                    } else {
-                        parent.setRight(current.getLeft());
-                    }
-                }
-            } else {
-                if (current.getLeft() == null) {
-                    if (current == this.root) {
-                        this.root = current.getRight();
-                    } else {
-                        if (leftSon) {
-                            parent.setLeft(current.getRight());
-                        } else {
-                            parent.setRight(current.getRight());
-                        }
-                    }
-                } else {
-                    Node successor = getSucessor(current);
-                    if (current == this.root) {
-                        this.root = successor;
-                    } else {
-                        if (leftSon) {
-                            parent.setLeft(successor);
-                        } else {
-                            parent.setRight(successor);
-                        }
-                    }
-                    successor.setLeft(current.getLeft());
-                }
-            }
-        }
-        return true;
-    }
-
-    private Node getSucessor(Node eliminate) {
-        Node successorParent = eliminate;
-        Node successor = eliminate;
-        Node current = eliminate.getRight();
-        while (current != null) {
-            successorParent = successor;
-            successor = current;
-            current = current.getLeft();
-        }
-        if (successor != eliminate.getRight()) {
-        }
-        return successor;
+    public void AVLInsert(long id, Object elemento) {
+        Node newNode = new Node(id,elemento,null,null);
+        insert(root, newNode);
     }
 
     private void insert(Node current, Node newNode) {
-        if (current.getId() == newNode.getId()) {
+        if (current == null) {
+            this.root = newNode;
+            return;
         }
 
         if (newNode.getId() < current.getId()) {
             if(current.getLeft() == null) {
                 current.setLeft(newNode);
+                newNode.setParent(current);
+                evaluateBalancing(current);
             } else {
-                insert(current.getLeft(), newNode);
+                insert(current.getLeft(),newNode);
             }
-        }
-
-        if (newNode.getId() > current.getId()) {
-            if(current.getRight() == null) {
-                current.setRight(newNode);
+        } else {
+            if (newNode.getId() > current.getId()) {
+                if(current.getRight() == null) {
+                    current.setRight(newNode);
+                    newNode.setParent(current);
+                    evaluateBalancing(current);
+                } else {
+                    insert(current.getLeft(),newNode);
+                }
             } else {
-                insert(current.getRight(), newNode);
+                return;
             }
         }
     }
 
-    private Node search(Node current, long id) {
-        if (current == null) {
-            return null;
+    private void evaluateBalancing(Node current) {
+        calculateBalancing(current);
+        long b = current.getB();
+        if (b == -2) {
+            if (height(current.getLeft().getLeft()) >= height(current.getLeft().getRight())) {
+                current = rightRotation(current);
+            }else{
+                current = doubleRightRotation(current);
+            }
         } else {
-            if (id == current.getId()) {
-                return current;
+            if (b == 2) {
+                if (height(current.getRight().getRight()) >= height(current.getRight().getLeft())) {
+
+                    current = leftRotation(current);
+                }else{
+                    current = doubleLeftRotation(current);
+                }
+            }
+        }
+        if (current.getParent() != null) {
+            evaluateBalancing(current.getParent());
+        }else{
+            this.root = current;
+        }
+    }
+
+    private void calculateBalancing(Node node) {
+        node.setB(height(node.getRight()) - height(node.getLeft()));
+    }
+
+    private long height(Node current) {
+        if (current == null) {
+            return -1;
+        }
+        if ((current.getLeft() == null) && (current.getRight() == null)) {
+            return 0;
+        } else {
+            if (current.getLeft() == null) {
+                return 1 + height(current.getRight());
             } else {
-                if (id < current.getId()) {
-                    return search(current.getLeft(), id);
+                if (current.getRight() == null) {
+                    return 1 + height(current.getLeft());
                 } else {
-                    return search(current.getRight(), id);
+                    return 1 + Math.max(height(current.getLeft()), height(current.getRight()));
                 }
             }
         }
     }
 
-    private void preFixed(Node current) {
-        if (current != null) {
-            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
-            preFixed(current.getLeft());
-            preFixed(current.getRight());
+    private Node leftRotation(Node initial) {
+        Node right = initial.getRight();
+        right.setParent(initial.getParent());
+        initial.setRight(right.getLeft());
+        if (initial.getRight() != null) {
+            initial.getRight().setParent(initial);
         }
+        right.setLeft(initial);
+        initial.setParent(right);
+        if (right.getParent() != null) {
+            if (right.getParent().getRight() == initial) {
+                right.getParent().setRight(right);
+            } else if (right.getParent().getLeft() == initial) {
+                right.getParent().setLeft(right);
+            }
+        }
+        calculateBalancing(initial);
+        calculateBalancing(right);
+        return right;
     }
 
-    private void postFixed(Node current) {
-        if (current != null) {
-            postFixed(current.getLeft());
-            postFixed(current.getRight());
-            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
+    private Node rightRotation(Node initial) {
+        Node left = initial.getLeft();
+        left.setParent(initial.getParent());
+        initial.setLeft(left.getRight());
+        if (initial.getLeft() != null) {
+            initial.getLeft().setParent(initial);
         }
+        left.setRight(initial);
+        initial.setParent(left);
+        if (left.getParent() != null) {
+            if (left.getParent().getRight() == initial) {
+                left.getParent().setRight(left);
+            } else if (left.getParent().getLeft() == initial) {
+                left.getParent().setLeft(left);
+            }
+        }
+        calculateBalancing(initial);
+        calculateBalancing(left);
+        return left;
     }
 
-    private void symFixed(Node current) {
-        if (current != null) {
-            symFixed(current.getLeft());
-            System.out.println("Id: " + current.getId() + " Elemento: " + current.getElement());
-            symFixed(current.getRight());
-        }
+    private Node doubleRightRotation(Node initial)  {
+        initial.setLeft(leftRotation(initial.getLeft()));
+        return rightRotation(initial);
+    }
+    
+    private Node doubleLeftRotation(Node initial)  {
+        initial.setRight(rightRotation(initial.getRight()));
+        return leftRotation(initial);
     }
 }

@@ -1,7 +1,5 @@
 package binarysearchthree;
 
-import binarytree.Node;
-
 public class BinarySearchThree {
 
     private Node root;
