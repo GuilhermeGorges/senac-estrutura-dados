@@ -4,7 +4,7 @@ public class AVLThree {
 
     private Node root;
 
-    public void AVLInsert(long id, Object elemento) {
+    public void insertAVL(long id, Object elemento) {
         Node newNode = new Node(id,elemento,null,null);
         insert(root, newNode);
     }
@@ -50,7 +50,6 @@ public class AVLThree {
         } else {
             if (b == 2) {
                 if (height(current.getRight().getRight()) >= height(current.getRight().getLeft())) {
-
                     current = leftRotation(current);
                 }else{
                     current = doubleLeftRotation(current);
