@@ -4,9 +4,9 @@ public class Vertex {
     private String label;
     private boolean visited;
 
-    public Vertex(String label, boolean visited) {
+    public Vertex(String label) {
         this.label = label;
-        this.visited = visited;
+        this.visited = false;
     }
     public void setLabel(String label) {
         this.label = label;
