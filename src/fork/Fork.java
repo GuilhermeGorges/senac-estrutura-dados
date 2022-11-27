@@ -1,6 +1,8 @@
 package fork;
 
+import java.sql.SQLOutput;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -77,6 +79,23 @@ public class Fork {
         }
         for(int j=0; j<numVertex; j++) {
             vertexList[j].wasNotVisited();
+        }
+    }
+
+    public void printEdgeMatrix() {
+        for(int y = 0; y < numVertex; y++) {
+            if(y==0) {
+                System.out.print("X  ");
+                for(int i = 0; i < numVertex; i++) {
+                    System.out.print("  " + vertexList[i] + "  ");
+                }
+                System.out.println();
+            }
+            System.out.print(vertexList[y] + " -");
+            for(int x = 0; x < numVertex; x++) {
+                System.out.print("  " + matrix[x][y] + "  ");
+            }
+            System.out.println();
         }
     }
 }

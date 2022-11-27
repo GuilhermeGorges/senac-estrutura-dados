@@ -21,5 +21,6 @@ public class MainBFS {
         System.out.print("BFS - Vertices visitados: ");
         f.breadthFirstSearch();
         System.out.println();
+        f.printEdgeMatrix();
     }
 }
