@@ -1,6 +1,6 @@
 package fork;
 
-public class Main {
+public class MainDFS {
     public static void main(String[] args) {
         Fork f = new Fork();
         f.addVertex("A");

@@ -60,4 +60,23 @@ public class Fork {
         }
         return -1;
     }
+
+    public void breadthFirstSearch() {
+        Queue<Integer> queue = new ArrayDeque<>();
+        vertexList[0].wasVisited();
+        showVertex(0);
+        queue.add(0);
+        int v2;
+        while( !queue.isEmpty() ) {
+            int v1 = queue.remove();
+            while( (v2=catchUnvisitedVertex(v1)) != -1 ) {
+                vertexList[v2].wasVisited();
+                showVertex(v2);
+                queue.add(v2);
+            }
+        }
+        for(int j=0; j<numVertex; j++) {
+            vertexList[j].wasNotVisited();
+        }
+    }
 }
