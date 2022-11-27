@@ -7,9 +7,19 @@ public class Main {
         f.addVertex("B");
         f.addVertex("C");
         f.addVertex("D");
+        f.addVertex("E");
+        f.addVertex("F");
+        f.addVertex("G");
         f.addEdge(0,1);
         f.addEdge(0,2);
         f.addEdge(0,3);
+        f.addEdge(1,4);
+        f.addEdge(4,6);
+        f.addEdge(2,5);
         f.addEdge(2,3);
+
+        System.out.print("DFS - Vertices visitados: ");
+        f.depthFirstSearch();
+        System.out.println();
     }
 }
