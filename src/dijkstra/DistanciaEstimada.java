@@ -1,9 +1,9 @@
-package buscagrafo;
+package dijkstra;
 
 public class DistanciaEstimada {
-    private int paiVertice; // pai atual do vértice
-    private int distancia; // distância do início até o vértice
-    public DistanciaEstimada(int p, int d) { //construtor
+    private int paiVertice;
+    private int distancia;
+    public DistanciaEstimada(int p, int d) {
         this.paiVertice = p;
         this.distancia = d;
     }
@@ -19,4 +19,4 @@ public class DistanciaEstimada {
     public int getPaiVertice() { // método para retornar o pai do vértice
         return this.paiVertice;
     }
-} // final classe DistanciaEstimada
+}
